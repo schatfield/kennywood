@@ -13,22 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
-# from django.urls import path
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-# ]
-
-
+from kennywoodapi.models import *
 from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
+from kennywoodapi.views import ParkAreas
 
-router = routers.DefaultRouter(trailing_slash=False)
+
+ROUTER = routers.DefaultRouter(trailing_slash=False)
+
+ROUTER.register(r'parkareas', ParkAreas, 'parkarea')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(ROUTER.urls)),
     path('api-token-auth/', obtain_auth_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
