@@ -19,6 +19,8 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 from kennywoodapi.views import ParkAreas
+from kennywoodapi.views import register_user, login_user
+
 
 
 ROUTER = routers.DefaultRouter(trailing_slash=False)
@@ -27,6 +29,8 @@ ROUTER.register(r'parkareas', ParkAreas, 'parkarea')
 
 urlpatterns = [
     path('', include(ROUTER.urls)),
+    path('register/', register_user),
+    path('login/', login_user),
     path('api-token-auth/', obtain_auth_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
