@@ -69,10 +69,14 @@ class ParkAreaSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = ParkArea
+        # you are giving the serializer the model to use as a bluprint for the translator to know the structure the translated data should be in
         url = serializers.HyperlinkedIdentityField(
             view_name='parkarea',
             lookup_field='id'
         )
+        # here we are specifying which fields from the model we want to be provided in the JSON response
+        # these are the only things I'm exposing from this endpoint
+        # There is no depth specified here becasue there is no foreign key here. if you specify the depth is shows data as nested. this example is flat
         fields = ('id', 'url', 'name', 'theme')
 
 
@@ -91,8 +95,9 @@ class ParkAreas(ViewSet):
         newarea.save()
 
         serializer = ParkAreaSerializer(newarea, context={'request': request})
-
+        # here you are instantiating the  serializer- you are making an instance. you are also making the serializer available within in the scope of the class
         return Response(serializer.data)
+        # Response contains data as a property on serializer, which contains th serialized queryset
 
     def retrieve(self, request, pk=None):
         """Handle GET requests for single park area
